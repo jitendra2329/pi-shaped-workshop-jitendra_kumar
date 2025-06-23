@@ -1,0 +1,71 @@
+
+Mini GCP Architecture: File Upload & Processing System
+======================================================
+
+Overview:
+---------
+This architecture describes a simple web application on Google Cloud Platform (GCP)
+that allows users to upload files, processes those files, and stores metadata in a
+database. The system uses various GCP services working together in a serverless and
+event-driven manner.
+
+Components and Roles:
+---------------------
+
+1. Cloud Storage (GCS):
+   - Stores uploaded files (e.g., images, CSVs, PDFs).
+
+2. Cloud Functions:
+   - Automatically triggered on file upload to process or scan the file.
+
+3. Pub/Sub:
+   - Transports messages (e.g., file metadata) between services asynchronously.
+
+4. Cloud Run / App Engine:
+   - Hosts backend services or APIs to interact with users or other services.
+
+5. Firestore / BigQuery / Cloud SQL:
+   - Stores processed metadata, file details, or analytics data.
+
+6. Cloud Logging / Cloud Monitoring:
+   - Provides observability, diagnostics, and metrics for the services.
+
+Interaction Flow:
+-----------------
+
+1. User Uploads a File:
+   - User uploads a file via a frontend application.
+   - The backend (hosted on Cloud Run or App Engine) receives the file and stores it in GCS.
+
+2. Cloud Storage Triggers Cloud Function:
+   - When a new file is added, GCS sends an event that triggers a Cloud Function.
+
+3. Cloud Function Publishes to Pub/Sub:
+   - The Cloud Function extracts metadata from the file and publishes a message to a Pub/Sub topic.
+
+4. Cloud Run / Another Cloud Function Subscribes to Pub/Sub:
+   - Another service (Cloud Run or Cloud Function) listens to the Pub/Sub topic.
+   - It processes the message and stores the metadata in Firestore or another database.
+
+5. Monitoring and Logging:
+   - All services log events to Cloud Logging.
+   - Cloud Monitoring tracks metrics like invocation count, latency, and error rates.
+
+Architecture Diagram (Text Representation):
+-------------------------------------------
+
+[User] ──> [Cloud Run/API] ──> [Cloud Storage (GCS)]
+                                │
+                                
+                [Cloud Function (Trigger on upload)]
+                                │
+                                
+                         [Pub/Sub Topic]
+                                │
+                                
+            [Cloud Run / Cloud Function Subscriber]
+                                │
+                                ├──> [Firestore / Cloud SQL]
+                                └──> [Cloud Logging / Monitoring]
+
+
