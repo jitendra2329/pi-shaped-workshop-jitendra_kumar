@@ -120,3 +120,31 @@ The default network configuration in GCP creates a single network with automatic
 4. **Cost Considerations**: Pricing varies by region based on local infrastructure costs
 5. **Compliance Requirements**: Some industries require data to remain within specific geographic boundaries
 
+## GCP IAM Best Practices & Concepts
+
+### Why is it dangerous to assign the **Editor** role to all users in a production environment?
+The **Editor** role grants broad permissions including the ability to modify or delete almost any resource in a project. Assigning it to all users:
+- Violates the **principle of least privilege**
+- Increases the risk of **accidental misconfigurations** or **security breaches**
+- Makes it harder to **audit actions**, since many users have overlapping permissions
+
+### How do **service accounts** differ from **user accounts** in managing backend services?
+| Feature             | Service Account                         | User Account                               |
+|---------------------|------------------------------------------|---------------------------------------------|
+| Used By             | Applications, VMs, services              | Human users                                 |
+| Authentication      | Key-based (JSON key or Workload Identity)| Username & password (OAuth2, SSO, etc.)     |
+| Lifecycle           | Managed by project owners                | Managed by the individual or identity provider |
+| Example Use Case    | A VM accessing Cloud Storage             | A developer using `gcloud` CLI               |
+
+Service accounts are designed for **automated access** to GCP resources by applications or VMs.
+
+### What practices help secure IAM in a multi-project GCP setup?
+1. **Use least privilege**: Assign only the minimum necessary permissions.
+2. **Use custom roles**: Tailor permissions to match exact use cases.
+3. **Use folders and organizations**: Group projects and apply IAM policies hierarchically.
+4. **Separate environments**: Isolate dev, staging, and prod into separate projects.
+5. **Audit and monitor IAM**: Regularly review permissions and enable Cloud Audit Logs.
+6. **Avoid using primitive roles** (`Owner`, `Editor`, `Viewer`) in production.
+
+
+
