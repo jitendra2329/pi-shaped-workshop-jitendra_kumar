@@ -1,0 +1,21 @@
+Difference between Primitive, Predefined, and Custom Roles in Google Cloud
+
+1. Primitive Roles:
+   - These are the basic roles provided by GCP at the project level.
+   - Examples: Owner, Editor, Viewer
+   - Broad permissions; not recommended for production due to over-privilege risk.
+
+2. Predefined Roles:
+   - GCP-created roles tailored to specific services.
+   - Examples: roles/storage.objectViewer, roles/compute.instanceAdmin
+   - More granular than primitive roles, follow least privilege principle.
+
+3. Custom Roles:
+   - User-defined roles where you choose specific permissions.
+   - Use when predefined roles are too broad or don't fit exactly.
+   - Offers maximum control; requires careful planning.
+
+Summary:
+- Use Predefined roles when possible.
+- Use Custom roles for precise control.
+- Avoid Primitive roles unless absolutely necessary.
